@@ -59,25 +59,61 @@ where brand_name in (select company from employees where city = 'San Francisco')
 
 SELECT * from employees;
 SELECT * from brands;
+
 -- task04-> Create a query to list the name, employee count, and total salary of employees for each brand.
-SELECT brand_name, employee_count, (SELECT sum(salary) FROM employees WHERE brand_name = company) as total_salary FROM brands;
+
+SELECT brand_name, employee_count, (
+    SELECT sum(salary) 
+    FROM employees 
+    WHERE brand_name = company) as total_salary FROM brands;
 -- To name the result returned from the subquery, we can append the desired name directly at the end of the query
 -- or use 'as' keyword.
+
 -- task05-> Create a query to list the brand_name, employee count, and average salary of employees for each brand.
-SELECT brand_name, employee_count , (SELECT round(avg(salary)) FROM employees WHERE brand_name = company ) as average_salary FROM brands;
+
+SELECT brand_name, employee_count , (
+    SELECT round(avg(salary)) 
+    FROM employees 
+    WHERE brand_name = company ) as average_salary FROM brands;
+
 -- round() rounds the result to the nearest whole number.
 -- round(avg(salary))
 -- If we write round(avg(salary),2), it will round to 2 decimal places.
-SELECT brand_name, employee_count, (SELECT round(avg(salary), 2) FROM employees WHERE brand_name = company ) as average_salary FROM brands;
+
+SELECT brand_name, employee_count, (
+    SELECT round(avg(salary), 2) 
+    FROM employees 
+    WHERE brand_name = company ) as average_salary FROM brands;
+
 -- task06-> Create a query to list the brand_name, employee count, and maximum and minimum salary of employees for each brand.
-SELECT brand_name, employee_count, (SELECT max(salary) FROM employees WHERE brand_name = company) as max_salary  FROM brands;
-SELECT brand_name, employee_count, (SELECT min(salary) FROM employees WHERE brand_name = company) as min_salary  FROM brands;
+
+SELECT brand_name, employee_count, (
+    SELECT max(salary) 
+    FROM employees 
+    WHERE brand_name = company) as max_salary  FROM brands;
+---------------------
+SELECT brand_name, employee_count, (
+    SELECT min(salary) 
+    FROM employees 
+    WHERE brand_name = company) as min_salary  FROM brands;
+
 -- To list max and min salaries together.
-SELECT brand_name, employee_count, (select max(salary) FROM employees WHERE brand_name = company) as max_salary,
-(select min(salary) FROM employees WHERE brand_name = company) as min_salary
+
+SELECT brand_name, employee_count, (
+    select max(salary) 
+    FROM employees 
+    WHERE brand_name = company) as max_salary,
+(select min(salary) 
+FROM employees 
+WHERE brand_name = company) as min_salary
   FROM brands;
+
 -- task07-> Create a query to list the id, name, and the total number of cities each brand is located in.
-SELECT brand_id, brand_name, (SELECT count(city) FROM employees WHERE brand_name=company) as city_count FROM brands;
+
+SELECT brand_id, brand_name, (
+    SELECT count(city) 
+    FROM employees 
+    WHERE brand_name=company) as city_count FROM brands;
 -- count(city) counts the cities.
 
 -- task01-> Create a query to list the names, salaries, and workplaces of employees working at brands with more than 15,000 employees.
