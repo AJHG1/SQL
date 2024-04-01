@@ -1,0 +1,72 @@
+/*===================== IS NULL, IS NOT NULL, COALESCE =======================
+    IS NULL and IS NOT NULL are BOOLEAN operators used to check whether an expression is NULL or not. 
+    COALESCE is a function that returns the first non-NULL value among its arguments. 
+    If all arguments are NULL, COALESCE returns NULL.
+    It is used to avoid writing multiple conditions like WHERE column1 IS NULL or column2 IS NULL...; 
+    coalesce=merge command.
+
+    syntax->     column_name = COALESCE(column_name, value)
+    ==============================================================================*/
+drop table employees;
+use sample;
+CREATE TABLE employees 
+(
+    ssn CHAR(9), -- Social Security Number
+    name VARCHAR(50), 
+    city VARCHAR(50) 
+);
+
+INSERT INTO employees VALUES('123456789', 'John Doe', 'New York');
+INSERT INTO employees VALUES('234567890', 'Alice Smith', 'Los Angeles');
+INSERT INTO employees VALUES('345678901', 'Robert Johnson', 'Chicago');
+INSERT INTO employees VALUES('', 'Emily Brown', 'Houston');
+INSERT INTO employees (ssn, city) VALUES('456789012', 'San Francisco');
+INSERT INTO employees (ssn, city) VALUES('567890123', 'Seattle');
+INSERT INTO employees (city) VALUES('Boston');
+INSERT INTO employees (ssn) VALUES('999111222');
+                
+SELECT * FROM employees;
+
+-- task01-> Query to list the records where the name is NULL.
+
+select *
+from employees
+	where name is  null;
+
+-- task02-> Query to list the records where the name is NOT NULL.
+
+select *
+from employees
+	where name is not null;
+
+-- task03-> Query to update the name of employees with NULL name to 'NO NAME'.
+
+update employees 
+set name = 'no name' 
+where name is null;
+
+SELECT * FROM employees;
+
+-- Reverting the table to its original state
+
+update employees 
+set name = null 
+where name = 'no name';
+
+/* ----------------------------------------------------------------------------
+task04-> Update the table:
+    - Set 'Name not provided' for those with NULL name
+    - Set 'City not provided' for those with NULL city
+    - Set 'No SSN' for those with NULL ssn
+    To avoid writing multiple conditions like WHERE name IS NULL or city IS NULL...;
+    coalesce=merge
+-----------------------------------------------------------------------------*/
+
+update employees 
+set name = coalesce(name,'Name not provided'),
+			city = coalesce(city,'City not provided'),
+			ssn = coalesce(ssn,'No SSN');
+
+
+
+
